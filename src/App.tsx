@@ -1,8 +1,21 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainScreen from './screens/MainScreen';
+import CollectionScreen from './screens/CollectionScreen';
+import NavBar from './components/NavBar';
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/movies" element={<MainScreen />} />
+          <Route path="/collection" element={<CollectionScreen />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
