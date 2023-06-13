@@ -41,9 +41,10 @@ const Container = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
+  align-items: center;
   border-radius: 3px;
   width: 40%;
-  background: rgb(4, 170, 109);
+  background: rgb(4 170 109 / 47%);
   top: 50px;
   overflow: auto;
   max-height: 500px;

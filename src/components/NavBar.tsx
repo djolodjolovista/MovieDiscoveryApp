@@ -85,6 +85,7 @@ const InputSearch = styled.input`
   padding: 6px;
   font-size: 17px;
   border: none;
+  border-radius: 3px;
   width: 100%;
 `;
 

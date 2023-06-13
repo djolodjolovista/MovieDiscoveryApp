@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { useAppDispatch } from '../app/hooks';
 import { Movie, addMovieToCollection } from '../features/moviesSlice';
+import Button from './Button';
 
 interface MovieCardProps {
   movie: Movie;
@@ -21,7 +22,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       <TextContainer>
         <Title>{movie.title}</Title>
         <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
-        <button onClick={() => dispatch(addMovieToCollection(movie))}>test</button>
+        <ButtonContainer>
+          <Button
+            onClick={() => dispatch(addMovieToCollection(movie))}
+            text="Save"
+            hoverMessage="Save to collection"
+          />
+        </ButtonContainer>
       </TextContainer>
     </CardContainer>
   );
@@ -33,6 +40,12 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 5px;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
 `;
 
 const CardContainer = styled.div`
@@ -42,6 +55,7 @@ const CardContainer = styled.div`
   padding: 10px;
   margin: 8px 5%;
   display: flex;
+  background: rgb(4, 170, 109);
 `;
 
 const Title = styled.h3`
