@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink as BaseNavLink } from 'react-router-dom';
 import Filter, { FilterOption } from './Filter';
-import { useGetMoviesMutation } from '../services/movieApi';
+import { useGetGenresQuery, useGetMoviesMutation } from '../services/movieApi';
 import { useLocation } from 'react-router-dom';
 import SearchSuggestionBox from './SearchSuggestionBox';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { addFilter } from '../features/moviesSlice';
 
 const NavBar = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -12,12 +14,15 @@ const NavBar = () => {
   const [page, setPage] = useState(1);
   const [getMovies, { data }] = useGetMoviesMutation();
   const location = useLocation();
+  const { data: genresData } = useGetGenresQuery('test');
+  const dispatch = useAppDispatch();
+  const currentGenre = useAppSelector((state) => state.movies.genres);
 
-  const options: FilterOption[] = [
+  /*const options: FilterOption[] = [
     { value: 'option1', label: 'Option 1' },
     { value: 'option2', label: 'Option 2' },
     { value: 'option3', label: 'Option 3' }
-  ];
+  ];*/
 
   console.log('Data->>>>>', data);
   console.log('Page->>>>', page);
@@ -32,8 +37,8 @@ const NavBar = () => {
     await getMovies({ query, page });
   };
 
-  const handleOptionChange = (value: string) => {
-    setSelectedOption(value);
+  const handleOptionChange = (value: number) => {
+    dispatch(addFilter(value));
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,8 +64,8 @@ const NavBar = () => {
             )}
           </SearchContainer>
           <Filter
-            options={options}
-            selectedOption={selectedOption}
+            options={genresData?.genres}
+            selectedOption={currentGenre}
             onOptionChange={handleOptionChange}
           />
         </>

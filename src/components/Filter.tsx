@@ -2,27 +2,28 @@ import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 export interface FilterOption {
-  value: string;
-  label: string;
+  id: number;
+  name: string;
 }
 
 interface FilterComponentProps {
   options: FilterOption[];
-  selectedOption: string;
-  onOptionChange: (value: string) => void;
+  selectedOption: number;
+  onOptionChange: (value: number) => void;
 }
 
 const Filter: React.FC<FilterComponentProps> = ({ options, selectedOption, onOptionChange }) => {
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onOptionChange(event.target.value);
+    onOptionChange(parseInt(event.target.value));
   };
   return (
     <FilterContainer>
       <FilterLabel>Filter:</FilterLabel>
       <FilterSelect value={selectedOption} onChange={handleSelectChange}>
-        {options.map((option) => (
-          <FilterOption key={option.value} value={option.value}>
-            {option.label}
+        <FilterOption value={undefined}>--Please choose an option--</FilterOption>
+        {options?.map((option) => (
+          <FilterOption key={option.id} value={option.id}>
+            {option.name}
           </FilterOption>
         ))}
       </FilterSelect>

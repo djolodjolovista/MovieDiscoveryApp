@@ -10,10 +10,14 @@ export type Movie = {
 
 interface MovieState {
   moviesCollection: Movie[];
+  genres: number | null;
+  currentPage: number;
 }
 
 const initialState: MovieState = {
-  moviesCollection: []
+  moviesCollection: [],
+  genres: null,
+  currentPage: 1
 };
 
 export const moviesSlice = createSlice({
@@ -22,9 +26,16 @@ export const moviesSlice = createSlice({
   reducers: {
     addMovieToCollection: (state, action: PayloadAction<Movie>) => {
       state.moviesCollection.push(action.payload);
+    },
+    addFilter: (state, action: PayloadAction<number>) => {
+      state.genres = action.payload;
+      state.currentPage = 1;
+    },
+    changeCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
     }
   }
 });
 
-export const { addMovieToCollection } = moviesSlice.actions;
+export const { addMovieToCollection, addFilter, changeCurrentPage } = moviesSlice.actions;
 export default moviesSlice.reducer;
