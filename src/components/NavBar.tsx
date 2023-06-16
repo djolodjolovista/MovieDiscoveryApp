@@ -37,7 +37,7 @@ const NavBar = () => {
     await getMovies({ query, page });
   };
 
-  const handleOptionChange = (value: number) => {
+  const handleOptionChange = (value: number | undefined) => {
     dispatch(addFilter(value));
   };
 

@@ -24,6 +24,18 @@ export const movieApi = createApi({
     getMoviesByGenre: builder.query({
       query: (genre_id) =>
         `/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genre_id}`
+    }),
+    getMovieDetails: builder.query({
+      query: (movie_id) => `/movie/${movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
+    }),
+    addFavoriteMovie: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${process.env.REACT_APP_SESSION_ID}`,
+          method: 'POST',
+          body: { media_type: 'movie', media_id: id, favorite: true }
+        };
+      }
     })
   })
 });
@@ -32,5 +44,7 @@ export const {
   useGetMoviesMutation,
   useGetPopularMoviesQuery,
   useGetGenresQuery,
-  useGetMoviesByGenreQuery
+  useGetMoviesByGenreQuery,
+  useGetMovieDetailsQuery,
+  useAddFavoriteMovieMutation
 } = movieApi;

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useAppDispatch } from '../app/hooks';
 import { Movie, addMovieToCollection } from '../features/moviesSlice';
 import Button from './Button';
+import { useAddFavoriteMovieMutation } from '../services/movieApi';
 
 interface MovieCardProps {
   movie: Movie;
@@ -11,6 +12,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const dispatch = useAppDispatch();
+  const [addFavoriteMovie] = useAddFavoriteMovieMutation();
   return (
     <CardContainer>
       <Poster
@@ -24,7 +26,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
         <ButtonContainer>
           <Button
-            onClick={() => dispatch(addMovieToCollection(movie))}
+            onClick={() => addFavoriteMovie(movie.id)}
             text="Save"
             hoverMessage="Save to collection"
           />

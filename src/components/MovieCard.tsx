@@ -5,9 +5,10 @@ import { Movie } from '../features/moviesSlice';
 
 interface MovieCardProps {
   movie: Movie;
+  onClickHandle?: (id_movie: number) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle }) => {
   return (
     <CardContainer>
       <Poster
@@ -18,6 +19,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       />
       <Title>{movie.title}</Title>
       <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
+      {onClickHandle && <button onClick={() => onClickHandle(movie.id)}>Details</button>}
     </CardContainer>
   );
 };

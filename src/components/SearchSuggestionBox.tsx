@@ -39,6 +39,7 @@ export default SearchSuggestionBox;
 
 const Container = styled.div`
   position: absolute;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;

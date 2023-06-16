@@ -5,12 +5,18 @@ import { Movie } from '../features/moviesSlice';
 
 interface CatalogProps {
   movies: Movie[];
+  movieDetailsClick?: (id_movie: number) => void;
 }
 
-const Catalog = ({ movies }: CatalogProps) => {
+const Catalog = ({ movies, movieDetailsClick }: CatalogProps) => {
   return (
     <div>
-      <Grid>{movies && movies.map((movie, index) => <MovieCard key={index} movie={movie} />)}</Grid>
+      <Grid>
+        {movies &&
+          movies.map((movie, index) => (
+            <MovieCard onClickHandle={movieDetailsClick} key={index} movie={movie} />
+          ))}
+      </Grid>
     </div>
   );
 };

@@ -8,8 +8,8 @@ export interface FilterOption {
 
 interface FilterComponentProps {
   options: FilterOption[];
-  selectedOption: number;
-  onOptionChange: (value: number) => void;
+  selectedOption: number | undefined;
+  onOptionChange: (value: number | undefined) => void;
 }
 
 const Filter: React.FC<FilterComponentProps> = ({ options, selectedOption, onOptionChange }) => {
