@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Catalog from '../components/Catalog';
 import { useGetMovieDetailsQuery, useGetPopularMoviesQuery } from '../services/movieApi';
@@ -35,7 +35,7 @@ const MainScreen = () => {
   return (
     <Container>
       <Title>Popular Movies</Title>
-      <Catalog movieDetailsClick={movieDetailsClick} movies={data?.results} />
+      <Catalog movieClick={movieDetailsClick} movies={data?.results} />
       <PaginationContainer>
         <Pagination
           currentPage={currentPage}
@@ -65,5 +65,6 @@ const PaginationContainer = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  padding: 20px 0px 20px 0px;
+  color: white;
+  padding: 20px 0px 20px 15px;
 `;

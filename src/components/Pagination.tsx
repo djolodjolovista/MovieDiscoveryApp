@@ -48,6 +48,7 @@ const TotalPages = styled.span`
   text-decoration: none;
   border: 1.2px solid black;
   border-radius: 5px;
+  background: white;
   padding: 1px 10px;
   padding-bottom: 3px;
   font-weight: bold;
@@ -58,6 +59,7 @@ const TotalPages = styled.span`
 
 const CurrentPage = styled(TotalPages)`
   margin: 0px;
+  background: white;
 `;
 
 const ChangePage = styled(TotalPages)`

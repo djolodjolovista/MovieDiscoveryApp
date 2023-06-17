@@ -2,24 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { Movie } from '../features/moviesSlice';
+import Button from './Button';
 
 interface MovieCardProps {
   movie: Movie;
   onClickHandle?: (id_movie: number) => void;
+  buttonText?: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle, buttonText }) => {
   return (
     <CardContainer>
       <Poster
         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
         alt={movie.title}
-        width={150}
-        height={200}
+        width={170}
+        height={210}
       />
-      <Title>{movie.title}</Title>
-      <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
-      {onClickHandle && <button onClick={() => onClickHandle(movie.id)}>Details</button>}
+      <TextContainer>
+        <Title>{movie.title}</Title>
+        <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
+      </TextContainer>
+      {onClickHandle && (
+        <Button
+          onClick={() => onClickHandle(movie.id)}
+          text={buttonText ? buttonText : 'Details'}
+          hoverMessage="Show details"
+        />
+      )}
     </CardContainer>
   );
 };
@@ -27,17 +37,26 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle }) => {
 export default MovieCard;
 
 const CardContainer = styled.div`
-  width: 150px;
-  border: 1px solid #ccc;
+  width: 170px;
+  border: 0.5px solid white;
   border-radius: 4px;
-  padding: 16px;
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 5px;
+  background: black;
+  box-shadow: white 0px 0px 10px 1px;
+  color: white;
 `;
 
 const Title = styled.h3`
-  margin: 0;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
+  width: 100%;
+  height: 2.5rem;
+  text-align: center;
+  margin-top: 3px;
+  margin-bottom: 0px;
 `;
 
 const ReleaseYear = styled.p`
@@ -47,5 +66,10 @@ const ReleaseYear = styled.p`
 
 const Poster = styled.img`
   border-radius: 4px;
-  margin-top: 16px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
