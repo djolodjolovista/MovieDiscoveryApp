@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainScreen from './screens/MainScreen';
 import CollectionScreen from './screens/CollectionScreen';
 import NavBar from './components/NavBar';
-import styled from 'styled-components';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Route path="/movies" element={<MainScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
       </Routes>
+      <Toaster position="top-center" reverseOrder={true} />
     </BrowserRouter>
   );
 }

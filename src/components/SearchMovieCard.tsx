@@ -5,14 +5,21 @@ import { useAppDispatch } from '../app/hooks';
 import { Movie, addMovieToCollection } from '../features/moviesSlice';
 import Button from './Button';
 import { useAddFavoriteMovieMutation } from '../services/movieApi';
+import { toast } from 'react-hot-toast';
 
 interface MovieCardProps {
   movie: Movie;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const SearchMovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const dispatch = useAppDispatch();
   const [addFavoriteMovie] = useAddFavoriteMovieMutation();
+  const addFavoriteMovieHandle = async (movie_id: number) => {
+    await addFavoriteMovie(movie_id)
+      .unwrap()
+      .then(() => toast.success('Successfully saved!'))
+      .catch(() => toast.error('Something went wrong!'));
+  };
   return (
     <CardContainer>
       <Poster
@@ -26,7 +33,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
         <ButtonContainer>
           <Button
-            onClick={() => addFavoriteMovie(movie.id)}
+            onClick={() => addFavoriteMovieHandle(movie.id)}
             text="Save"
             hoverMessage="Save to collection"
           />
@@ -36,7 +43,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   );
 };
 
-export default MovieCard;
+export default SearchMovieCard;
 
 const TextContainer = styled.div`
   display: flex;

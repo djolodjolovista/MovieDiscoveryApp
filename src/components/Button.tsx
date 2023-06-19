@@ -20,10 +20,10 @@ export default Button;
 const StyledButton = styled.button`
   background-color: green;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   max-width: 110px;
   &:hover {

@@ -6,11 +6,17 @@ import Button from './Button';
 
 interface MovieCardProps {
   movie: Movie;
-  onClickHandle?: (id_movie: number) => void;
+  detailsHandle?: (id_movie: number) => void;
+  deleteOrSaveHandle: (id_movie: number) => void;
   buttonText?: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle, buttonText }) => {
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  detailsHandle,
+  buttonText,
+  deleteOrSaveHandle
+}) => {
   return (
     <CardContainer>
       <Poster
@@ -23,18 +29,52 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClickHandle, buttonText 
         <Title>{movie.title}</Title>
         <ReleaseYear>Released in {moment(movie.release_date).format('yyyy')}</ReleaseYear>
       </TextContainer>
-      {onClickHandle && (
-        <Button
-          onClick={() => onClickHandle(movie.id)}
-          text={buttonText ? buttonText : 'Details'}
-          hoverMessage="Show details"
-        />
-      )}
+      <Overlay>
+        <OverlayButton>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', gap: '8px' }}>
+            {detailsHandle && (
+              <Button
+                onClick={() => detailsHandle(movie.id)}
+                text={'Details'}
+                hoverMessage="Show details"
+              />
+            )}
+            <Button
+              onClick={() => deleteOrSaveHandle(movie.id)}
+              text={buttonText ? buttonText : 'Save'}
+            />
+          </div>
+        </OverlayButton>
+      </Overlay>
     </CardContainer>
   );
 };
 
 export default MovieCard;
+
+const OverlayButton = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-inedx: 1;
+  display: none;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  &:hover {
+    background: rgb(4 170 109 / 47%);
+    ${OverlayButton} {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+`;
 
 const CardContainer = styled.div`
   width: 170px;
@@ -47,6 +87,7 @@ const CardContainer = styled.div`
   background: black;
   box-shadow: white 0px 0px 10px 1px;
   color: white;
+  position: relative;
 `;
 
 const Title = styled.h3`

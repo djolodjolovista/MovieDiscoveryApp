@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import Catalog from '../components/Catalog';
-import { useGetMovieDetailsQuery, useGetPopularMoviesQuery } from '../services/movieApi';
+import {
+  useAddFavoriteMovieMutation,
+  useGetMovieDetailsQuery,
+  useGetPopularMoviesQuery
+} from '../services/movieApi';
 import Pagination from '../components/Pagination';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { changeCurrentPage, openModal } from '../features/moviesSlice';
 import DetailsMovieCard from '../components/DetailsMovieCard';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { toast, Toaster } from 'react-hot-toast';
 
 const MainScreen = () => {
   const genre_id = useAppSelector((state) => state.movies.genres);
@@ -20,6 +25,7 @@ const MainScreen = () => {
   console.log('test->>>', data);
   console.log('Genres->>>>', currentPage);
   //console.log('moviesdetails->>>>', data2); //movie details
+  const [addFavoriteMovie] = useAddFavoriteMovieMutation();
 
   const { data: movieDetails } = useGetMovieDetailsQuery(modalId ? modalId : skipToken);
 
@@ -31,11 +37,23 @@ const MainScreen = () => {
     dispatch(openModal(id_movie));
   };
 
+  const addFavoriteMovieHandle = async (movie_id: number) => {
+    await addFavoriteMovie(movie_id)
+      .unwrap()
+      .then(() => toast.success('Movie saved!'))
+      .catch(() => toast.error('Something went wrong!'));
+    handleCloseModal();
+  };
+
   const paginate = (pageNumber: number) => dispatch(changeCurrentPage(pageNumber));
   return (
     <Container>
       <Title>Popular Movies</Title>
-      <Catalog movieClick={movieDetailsClick} movies={data?.results} />
+      <Catalog
+        deleteOrSaveHandle={addFavoriteMovieHandle}
+        detailsHandle={movieDetailsClick}
+        movies={data?.results}
+      />
       <PaginationContainer>
         <Pagination
           currentPage={currentPage}
@@ -45,7 +63,11 @@ const MainScreen = () => {
         />
       </PaginationContainer>
       {modalId && movieDetails && (
-        <DetailsMovieCard movie={movieDetails} closeModal={handleCloseModal} />
+        <DetailsMovieCard
+          save={addFavoriteMovieHandle}
+          movie={movieDetails}
+          closeModal={handleCloseModal}
+        />
       )}
     </Container>
   );

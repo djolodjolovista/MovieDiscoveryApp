@@ -2,19 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDeleteFavoriteMovieMutation, useGetFavoritesMoviesQuery } from '../services/movieApi';
 import Catalog from '../components/Catalog';
+import { toast } from 'react-hot-toast';
 
 const CollectionScreen = () => {
   const { data: favoriteMovies } = useGetFavoritesMoviesQuery();
   const [deleteFavoriteMovie] = useDeleteFavoriteMovieMutation();
-  const handleDeleteFavoriteMovie = (id: number) => {
-    deleteFavoriteMovie(id);
+  const handleDeleteFavoriteMovie = async (id: number) => {
+    await deleteFavoriteMovie(id)
+      .unwrap()
+      .then(() => toast.success('Movie deleted!'))
+      .catch(() => toast.error('Something went wrong!'));
   };
   return (
     <Container>
       <Title>Favorite Movies</Title>
       <Catalog
         cardButtonText="Delete"
-        movieClick={handleDeleteFavoriteMovie}
+        deleteOrSaveHandle={handleDeleteFavoriteMovie}
         movies={favoriteMovies?.results}
       />
     </Container>

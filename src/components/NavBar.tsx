@@ -28,9 +28,13 @@ const NavBar = () => {
   console.log('Page->>>>', page);
 
   useEffect(() => {
-    if (query && page) {
-      fetchMovie();
-    }
+    const delayDebounce = setTimeout(() => {
+      if (query && page) {
+        fetchMovie();
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
   }, [query, page]);
 
   const fetchMovie = async () => {
@@ -53,7 +57,12 @@ const NavBar = () => {
       {location.pathname !== '/collection' && (
         <>
           <SearchContainer>
-            <InputSearch type="text" placeholder="Search..." onChange={handleSearchChange} />
+            <InputSearch
+              type="text"
+              placeholder="Search for movie..."
+              value={query}
+              onChange={handleSearchChange}
+            />
             {query && data?.results && (
               <SearchSuggestionBox
                 movies={data.results}
@@ -91,7 +100,12 @@ const InputSearch = styled.input`
   font-size: 17px;
   border: none;
   border-radius: 3px;
+  background: rgba(4, 170, 109, 1);
+  color: white;
   width: 100%;
+  &::placeholder {
+    color: white;
+  }
 `;
 
 const Link = styled(BaseNavLink)`

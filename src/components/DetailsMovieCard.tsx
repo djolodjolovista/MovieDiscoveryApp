@@ -19,9 +19,10 @@ interface MovieDetails {
 interface DetailsMovieCardProps {
   movie: MovieDetails;
   closeModal: () => void;
+  save: (id_movie: number) => void;
 }
 
-const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal }) => {
+const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal, save }) => {
   const [addFavoriteMovie] = useAddFavoriteMovieMutation();
   return (
     <MainContainer>
@@ -34,27 +35,37 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal }
           />
           <TextDetailsContainer>
             <Label>
-              <b>Genre:</b> {movie.genres.map((el) => el.name)}
+              <b>
+                <i>Genre:</i>
+              </b>{' '}
+              {movie.genres.map((el, index) => {
+                return (index ? ', ' : '') + el.name;
+              })}
             </Label>
             <Label>
-              <b>Runtime:</b> {movie?.runtime} minutes
+              <b>
+                <i>Runtime:</i>
+              </b>{' '}
+              {movie?.runtime} minutes
             </Label>
             <Label>
-              <b>Rate:</b> 🌟{movie.vote_average}
+              <b>
+                <i>Rate:</i>
+              </b>{' '}
+              🌟{movie.vote_average}
             </Label>
             <Label>
-              <b>Release year:</b> {moment(movie.release_date).format('yyyy')}
+              <b>
+                <i>Release year:</i>
+              </b>{' '}
+              {moment(movie.release_date).format('yyyy')}
             </Label>
           </TextDetailsContainer>
         </Container>
 
         <Synopsis>{movie?.overview}</Synopsis>
         <ButtonsContainer>
-          <Button
-            onClick={() => addFavoriteMovie(movie.id)}
-            text="Save"
-            hoverMessage="Save to collection"
-          />
+          <Button onClick={() => save(movie.id)} text="Save" hoverMessage="Save to collection" />
           <Button onClick={closeModal} text="Close" hoverMessage="Close modal" />
         </ButtonsContainer>
       </CardContainer>
