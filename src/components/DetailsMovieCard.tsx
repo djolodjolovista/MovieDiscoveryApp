@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import moment from 'moment';
+import HashLoader from 'react-spinners/HashLoader';
 
 interface MovieDetails {
   id: number;
@@ -19,12 +20,23 @@ interface DetailsMovieCardProps {
   movie: MovieDetails;
   closeModal: () => void;
   save: (id_movie: number) => void;
+  loading?: boolean;
 }
 
-const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal, save }) => {
+const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({
+  movie,
+  closeModal,
+  save,
+  loading = false
+}) => {
+  const spinnerCss: React.CSSProperties = {
+    top: '150px',
+    position: 'absolute'
+  };
   return (
     <MainContainer>
       <CardContainer>
+        {loading && <HashLoader loading={true} size={120} color="green" cssOverride={spinnerCss} />}
         <MovieTitle>{movie?.title}</MovieTitle>
         <Container>
           <MoviePoster
@@ -52,7 +64,6 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal, 
             </TextContainer>
           </TextDetailsContainer>
         </Container>
-
         <Synopsis>{movie?.overview}</Synopsis>
         <ButtonsContainer>
           <Button onClick={() => save(movie.id)} text="Save" hoverMessage="Save to collection" />

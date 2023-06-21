@@ -46,6 +46,9 @@ const FilterLabel = styled.label`
 `;
 const FilterOption = styled.option`
   background-color: rgba(4, 170, 109, 1);
+  &:hover {
+    background-color: rgb(4 170 109 / 47%);
+  }
 `;
 
 const FilterSelect = styled.select`
@@ -53,4 +56,8 @@ const FilterSelect = styled.select`
   border-radius: 4px;
   background: rgba(4, 170, 109, 1);
   color: white;
+  &:hover {
+    cursor: pointer;
+    background: rgb(0 255 161);
+  }
 `;

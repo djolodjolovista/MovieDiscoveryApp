@@ -15,7 +15,7 @@ const SearchMovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const addFavoriteMovieHandle = async (movie_id: number) => {
     await addFavoriteMovie(movie_id)
       .unwrap()
-      .then(() => toast.success('Successfully saved!'))
+      .then(() => toast.success('Movie saved!'))
       .catch(() => toast.error('Something went wrong!'));
   };
   return (

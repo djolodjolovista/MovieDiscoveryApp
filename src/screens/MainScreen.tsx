@@ -12,20 +12,21 @@ import { changeCurrentPage, openModal } from '../features/moviesSlice';
 import DetailsMovieCard from '../components/DetailsMovieCard';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { toast } from 'react-hot-toast';
+import HashLoader from 'react-spinners/HashLoader';
 
 const MainScreen = () => {
   const genre_id = useAppSelector((state) => state.movies.genres);
   const currentPage = useAppSelector((state) => state.movies.currentPage);
   const modalId = useAppSelector((state) => state.movies.modalId);
   const dispatch = useAppDispatch();
-  const { data } = useGetPopularMoviesQuery({ page: currentPage, genre_id });
+  const { data, isLoading } = useGetPopularMoviesQuery({ page: currentPage, genre_id });
   //const { data: data2 } = useGetMovieDetailsQuery(1107872); //movie details query
   //const { data: data1 } = useGetGenresQuery('test');
   //const { data: data2 } = useGetMoviesByGenreQuery(27);
   console.log('test->>>', data);
   console.log('Genres->>>>', currentPage);
   //console.log('moviesdetails->>>>', data2); //movie details
-  const [addFavoriteMovie] = useAddFavoriteMovieMutation();
+  const [addFavoriteMovie, { isLoading: saveLoading }] = useAddFavoriteMovieMutation();
 
   const { data: movieDetails } = useGetMovieDetailsQuery(modalId ? modalId : skipToken);
 
@@ -46,27 +47,37 @@ const MainScreen = () => {
   };
 
   const paginate = (pageNumber: number) => dispatch(changeCurrentPage(pageNumber));
+
   return (
     <Container>
       <Title>Popular Movies</Title>
-      <Catalog
-        deleteOrSaveHandle={addFavoriteMovieHandle}
-        detailsHandle={movieDetailsClick}
-        movies={data?.results}
-      />
-      <PaginationContainer>
-        <Pagination
-          currentPage={currentPage}
-          elementsPerPage={20}
-          totalElements={data?.total_results}
-          paginate={paginate}
-        />
-      </PaginationContainer>
+      {isLoading ? (
+        <SpinnerContainer>
+          <HashLoader size={150} loading={true} color="#04AA6D" />
+        </SpinnerContainer>
+      ) : (
+        <>
+          <Catalog
+            deleteOrSaveHandle={addFavoriteMovieHandle}
+            detailsHandle={movieDetailsClick}
+            movies={data?.results}
+          />
+          <PaginationContainer>
+            <Pagination
+              currentPage={currentPage}
+              elementsPerPage={20}
+              totalElements={data?.total_results}
+              paginate={paginate}
+            />
+          </PaginationContainer>
+        </>
+      )}
       {modalId && movieDetails && (
         <DetailsMovieCard
           save={addFavoriteMovieHandle}
           movie={movieDetails}
           closeModal={handleCloseModal}
+          loading={saveLoading}
         />
       )}
     </Container>
@@ -77,6 +88,15 @@ export default MainScreen;
 
 const Container = styled.div`
   position: relative;
+`;
+
+const SpinnerContainer = styled.div`
+  margin-top: 80px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  justify-content: center;
 `;
 const PaginationContainer = styled.div`
   display: flex;

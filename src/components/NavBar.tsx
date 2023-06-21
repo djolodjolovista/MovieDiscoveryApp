@@ -96,6 +96,9 @@ const InputSearch = styled.input`
   background: rgba(4, 170, 109, 1);
   color: white;
   width: 100%;
+  &:hover {
+    background: rgb(0 255 161);
+  }
   &::placeholder {
     color: white;
   }

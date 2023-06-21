@@ -8,7 +8,7 @@ export type Movie = {
   genre_ids: number[];
 };
 
-interface MovieState {
+export interface MovieState {
   genres: number | undefined;
   currentPage: number;
   modalId: number | null;
