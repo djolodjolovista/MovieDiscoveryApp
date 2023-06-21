@@ -9,14 +9,12 @@ export type Movie = {
 };
 
 interface MovieState {
-  moviesCollection: Movie[];
   genres: number | undefined;
   currentPage: number;
   modalId: number | null;
 }
 
 const initialState: MovieState = {
-  moviesCollection: [],
   genres: undefined,
   currentPage: 1,
   modalId: null
@@ -26,9 +24,6 @@ export const moviesSlice = createSlice({
   name: 'movie',
   initialState,
   reducers: {
-    addMovieToCollection: (state, action: PayloadAction<Movie>) => {
-      state.moviesCollection.push(action.payload);
-    },
     addFilter: (state, action: PayloadAction<number | undefined>) => {
       state.genres = action.payload;
       state.currentPage = 1;
@@ -42,6 +37,5 @@ export const moviesSlice = createSlice({
   }
 });
 
-export const { addMovieToCollection, addFilter, changeCurrentPage, openModal } =
-  moviesSlice.actions;
+export const { addFilter, changeCurrentPage, openModal } = moviesSlice.actions;
 export default moviesSlice.reducer;

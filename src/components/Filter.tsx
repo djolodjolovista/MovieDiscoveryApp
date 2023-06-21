@@ -6,7 +6,7 @@ export interface FilterOption {
   name: string;
 }
 
-interface FilterComponentProps {
+export interface FilterComponentProps {
   options: FilterOption[];
   selectedOption: number | undefined;
   onOptionChange: (value: number | undefined) => void;
@@ -19,8 +19,8 @@ const Filter: React.FC<FilterComponentProps> = ({ options, selectedOption, onOpt
 
   return (
     <FilterContainer>
-      <FilterLabel>Filter:</FilterLabel>
-      <FilterSelect value={selectedOption} onChange={handleSelectChange}>
+      <FilterLabel htmlFor="genres">Filter:</FilterLabel>
+      <FilterSelect id="genres" value={selectedOption} onChange={handleSelectChange}>
         <FilterOption value={undefined}>-- Please choose genre --</FilterOption>
         {options?.map((option) => (
           <FilterOption key={option.id} value={option.id}>

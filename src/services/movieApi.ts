@@ -19,7 +19,7 @@ export const movieApi = createApi({
         };
       }
     }),
-    getGenres: builder.query({
+    getGenres: builder.query<any, void>({
       query: () => `/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en`
     }),
     getMoviesByGenre: builder.query({

@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { changeCurrentPage, openModal } from '../features/moviesSlice';
 import DetailsMovieCard from '../components/DetailsMovieCard';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const MainScreen = () => {
   const genre_id = useAppSelector((state) => state.movies.genres);

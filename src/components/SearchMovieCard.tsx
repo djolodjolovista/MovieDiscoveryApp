@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import { useAppDispatch } from '../app/hooks';
-import { Movie, addMovieToCollection } from '../features/moviesSlice';
+import { Movie } from '../features/moviesSlice';
 import Button from './Button';
 import { useAddFavoriteMovieMutation } from '../services/movieApi';
 import { toast } from 'react-hot-toast';
@@ -12,7 +11,6 @@ interface MovieCardProps {
 }
 
 const SearchMovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const dispatch = useAppDispatch();
   const [addFavoriteMovie] = useAddFavoriteMovieMutation();
   const addFavoriteMovieHandle = async (movie_id: number) => {
     await addFavoriteMovie(movie_id)

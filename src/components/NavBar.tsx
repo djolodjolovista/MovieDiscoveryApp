@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink as BaseNavLink } from 'react-router-dom';
-import Filter, { FilterOption } from './Filter';
+import Filter from './Filter';
 import { useGetGenresQuery, useGetMoviesMutation } from '../services/movieApi';
 import { useLocation } from 'react-router-dom';
 import SearchSuggestionBox from './SearchSuggestionBox';
@@ -9,20 +9,13 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addFilter } from '../features/moviesSlice';
 
 const NavBar = () => {
-  const [selectedOption, setSelectedOption] = useState('');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [getMovies, { data }] = useGetMoviesMutation();
   const location = useLocation();
-  const { data: genresData } = useGetGenresQuery('test');
+  const { data: genresData } = useGetGenresQuery();
   const dispatch = useAppDispatch();
   const currentGenre = useAppSelector((state) => state.movies.genres);
-
-  /*const options: FilterOption[] = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
-  ];*/
 
   console.log('Data->>>>>', data);
   console.log('Page->>>>', page);

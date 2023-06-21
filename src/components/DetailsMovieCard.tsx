@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import moment from 'moment';
-import { useAddFavoriteMovieMutation } from '../services/movieApi';
 
 interface MovieDetails {
   id: number;
@@ -23,7 +22,6 @@ interface DetailsMovieCardProps {
 }
 
 const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal, save }) => {
-  const [addFavoriteMovie] = useAddFavoriteMovieMutation();
   return (
     <MainContainer>
       <CardContainer>
@@ -34,32 +32,24 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({ movie, closeModal, 
             alt={movie?.title}
           />
           <TextDetailsContainer>
-            <Label>
-              <b>
-                <i>Genre:</i>
-              </b>{' '}
+            <TextContainer>
+              <Label>Genre:</Label>
               {movie.genres.map((el, index) => {
                 return (index ? ', ' : '') + el.name;
               })}
-            </Label>
-            <Label>
-              <b>
-                <i>Runtime:</i>
-              </b>{' '}
+            </TextContainer>
+            <TextContainer>
+              <Label>Runtime:</Label>
               {movie?.runtime} minutes
-            </Label>
-            <Label>
-              <b>
-                <i>Rate:</i>
-              </b>{' '}
-              🌟{movie.vote_average}
-            </Label>
-            <Label>
-              <b>
-                <i>Release year:</i>
-              </b>{' '}
+            </TextContainer>
+            <TextContainer>
+              <Label>Rate:</Label>
+              🌟{movie.vote_average.toFixed(2)}
+            </TextContainer>
+            <TextContainer>
+              <Label>Release year:</Label>
               {moment(movie.release_date).format('yyyy')}
-            </Label>
+            </TextContainer>
           </TextDetailsContainer>
         </Container>
 
@@ -104,7 +94,6 @@ const CardContainer = styled.div`
 
 const MovieTitle = styled.h3`
   margin: 0px 0px 8px 0px;
-  color: black;
 `;
 
 const MoviePoster = styled.img`
@@ -140,4 +129,11 @@ const Synopsis = styled.p`
   }
 `;
 
-const Label = styled.span``;
+const TextContainer = styled.div``;
+
+const Label = styled.span`
+  font-weight: 700;
+  font-size: 16px;
+  font-style: italic;
+  padding-right: 5px;
+`;
