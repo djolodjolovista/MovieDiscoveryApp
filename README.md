@@ -42,7 +42,7 @@ The application allow user to search for movies, view movie details, filters mov
   npm install
 ```
 
-4. Add .env file
+4. Add .env file <br />
 -Explained in the **Environment Variables** chapter
 
 5. Start the server
