@@ -21,6 +21,7 @@ The application allow user to search for movies, view movie details, filters mov
 - [react-spinners](https://www.davidhu.io/react-spinners/)
 - [react-infinite-scroll-component](https://www.npmjs.com/package/react-infinite-scroll-component)
 - [jest](https://www.npmjs.com/package/jest)
+- [aos](https://www.npmjs.com/package/aos)
 
 ## Run Locally
 

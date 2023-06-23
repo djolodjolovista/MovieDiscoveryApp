@@ -48,7 +48,7 @@ export default SearchMovieCard;
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 5px;
+  padding-left: 7px;
   width: 100%;
   justify-content: space-between;
 `;

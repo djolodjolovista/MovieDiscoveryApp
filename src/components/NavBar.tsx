@@ -22,7 +22,7 @@ const NavBar = () => {
       if (query && page) {
         fetchMovie();
       }
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(delayDebounce);
   }, [query, page]);
