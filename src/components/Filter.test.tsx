@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Filter, { FilterOption, FilterComponentProps } from './Filter';
+import Filter, { Genres, FilterComponentProps } from './Filter';
 
-const mockOptions: FilterOption[] = [
+const mockOptions: Genres[] = [
   { id: 1, name: 'Option 1' },
   { id: 2, name: 'Option 2' },
   { id: 3, name: 'Option 3' }

@@ -11,12 +11,7 @@ interface MovieCardProps {
   buttonText?: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({
-  movie,
-  detailsHandle,
-  buttonText,
-  deleteOrSaveHandle
-}) => {
+const MovieCard = ({ movie, detailsHandle, buttonText, deleteOrSaveHandle }: MovieCardProps) => {
   return (
     <CardContainer>
       <Poster
@@ -31,19 +26,17 @@ const MovieCard: React.FC<MovieCardProps> = ({
       </TextContainer>
       <Overlay>
         <OverlayButton>
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', gap: '8px' }}>
-            {detailsHandle && (
-              <Button
-                onClick={() => detailsHandle(movie.id)}
-                text={'Details'}
-                hoverMessage="Show details"
-              />
-            )}
+          {detailsHandle && (
             <Button
-              onClick={() => deleteOrSaveHandle(movie.id)}
-              text={buttonText ? buttonText : 'Save'}
+              onClick={() => detailsHandle(movie.id)}
+              text={'Details'}
+              hoverMessage="Show details"
             />
-          </div>
+          )}
+          <Button
+            onClick={() => deleteOrSaveHandle(movie.id)}
+            text={buttonText ? buttonText : 'Save'}
+          />
         </OverlayButton>
       </Overlay>
     </CardContainer>
@@ -72,6 +65,8 @@ const Overlay = styled.div`
     ${OverlayButton} {
       display: flex;
       flex-direction: row;
+      justify-content: center;
+      gap: 8px;
     }
   }
 `;

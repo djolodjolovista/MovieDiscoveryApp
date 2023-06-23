@@ -12,8 +12,11 @@ const CollectionScreen = () => {
     await deleteFavoriteMovie(id)
       .unwrap()
       .then(() => toast.success('Movie deleted!'))
-      .catch(() => toast.error('Something went wrong!'));
+      .catch((error) =>
+        toast.error(`Status: ${error?.status}\n Message: ${error?.data?.status_message}`)
+      );
   };
+
   return (
     <Container>
       <Title>Favorite Movies</Title>

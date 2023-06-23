@@ -1,17 +1,31 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Genres } from '../components/Filter';
+import { Movie } from '../features/moviesSlice';
+import { MovieDetails } from '../components/DetailsMovieCard';
+
+interface GenresData {
+  genres: Genres[];
+}
+
+interface MoviesData {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
 
 export const movieApi = createApi({
   reducerPath: 'movieApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_BASE_URL}` }),
   tagTypes: ['FavoriteMovies'],
   endpoints: (builder) => ({
-    getPopularMovies: builder.query({
+    getPopularMovies: builder.query<MoviesData, { page: number; genre_id: number | undefined }>({
       query: ({ page = 1, genre_id }) =>
         genre_id
           ? `/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genre_id}&language=en-US&page=${page}`
           : `/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
     }),
-    getMovies: builder.mutation({
+    getMovies: builder.mutation<MoviesData, { query: string; page: number }>({
       query: ({ query, page = 1 }) => {
         return {
           url: `/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,
@@ -19,17 +33,13 @@ export const movieApi = createApi({
         };
       }
     }),
-    getGenres: builder.query<any, void>({
+    getGenres: builder.query<GenresData, void>({
       query: () => `/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en`
     }),
-    getMoviesByGenre: builder.query({
-      query: (genre_id) =>
-        `/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genre_id}`
-    }),
-    getMovieDetails: builder.query({
+    getMovieDetails: builder.query<MovieDetails, number>({
       query: (movie_id) => `/movie/${movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
     }),
-    addFavoriteMovie: builder.mutation({
+    addFavoriteMovie: builder.mutation<any, number>({
       query: (id) => {
         return {
           url: `/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${process.env.REACT_APP_SESSION_ID}`,
@@ -39,7 +49,7 @@ export const movieApi = createApi({
       },
       invalidatesTags: ['FavoriteMovies']
     }),
-    getFavoritesMovies: builder.query<any, void>({
+    getFavoritesMovies: builder.query<MoviesData, void>({
       query: () =>
         `/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&session_id=${process.env.REACT_APP_SESSION_ID}&language=en-US`,
       providesTags: ['FavoriteMovies']
@@ -61,7 +71,6 @@ export const {
   useGetMoviesMutation,
   useGetPopularMoviesQuery,
   useGetGenresQuery,
-  useGetMoviesByGenreQuery,
   useGetMovieDetailsQuery,
   useAddFavoriteMovieMutation,
   useGetFavoritesMoviesQuery,

@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import Button from './Button';
 import moment from 'moment';
 import HashLoader from 'react-spinners/HashLoader';
+import { Genres } from './Filter';
 
-interface MovieDetails {
+export interface MovieDetails {
   id: number;
   title: string;
   poster_path: string;
   synopsis: string;
-  genres: { id: number; name: string }[];
+  genres: Genres[];
   runtime: number;
   vote_average: number;
   release_date: string;
@@ -23,12 +24,7 @@ interface DetailsMovieCardProps {
   loading?: boolean;
 }
 
-const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({
-  movie,
-  closeModal,
-  save,
-  loading = false
-}) => {
+const DetailsMovieCard = ({ movie, closeModal, save, loading = false }: DetailsMovieCardProps) => {
   const spinnerCss: React.CSSProperties = {
     top: '150px',
     position: 'absolute'
@@ -37,11 +33,11 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({
     <MainContainer>
       <CardContainer>
         {loading && <HashLoader loading={true} size={120} color="green" cssOverride={spinnerCss} />}
-        <MovieTitle>{movie?.title}</MovieTitle>
+        <MovieTitle>{movie.title}</MovieTitle>
         <Container>
           <MoviePoster
             src={`https://image.tmdb.org/t/p/w200${movie?.poster_path}`}
-            alt={movie?.title}
+            alt={movie.title}
           />
           <TextDetailsContainer>
             <TextContainer>
@@ -52,7 +48,7 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({
             </TextContainer>
             <TextContainer>
               <Label>Runtime:</Label>
-              {movie?.runtime} minutes
+              {movie.runtime} minutes
             </TextContainer>
             <TextContainer>
               <Label>Rate:</Label>
@@ -64,7 +60,7 @@ const DetailsMovieCard: React.FC<DetailsMovieCardProps> = ({
             </TextContainer>
           </TextDetailsContainer>
         </Container>
-        <Synopsis>{movie?.overview}</Synopsis>
+        <Synopsis>{movie.overview}</Synopsis>
         <ButtonsContainer>
           <Button onClick={() => save(movie.id)} text="Save" hoverMessage="Save to collection" />
           <Button onClick={closeModal} text="Close" hoverMessage="Close modal" />

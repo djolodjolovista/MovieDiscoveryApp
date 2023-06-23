@@ -11,14 +11,11 @@ import { addFilter } from '../features/moviesSlice';
 const NavBar = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [getMovies, { data }] = useGetMoviesMutation();
   const location = useLocation();
+  const [getMovies, { data }] = useGetMoviesMutation();
   const { data: genresData } = useGetGenresQuery();
   const dispatch = useAppDispatch();
   const currentGenre = useAppSelector((state) => state.movies.genres);
-
-  console.log('Data->>>>>', data);
-  console.log('Page->>>>', page);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {

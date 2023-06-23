@@ -19,15 +19,11 @@ const MainScreen = () => {
   const currentPage = useAppSelector((state) => state.movies.currentPage);
   const modalId = useAppSelector((state) => state.movies.modalId);
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetPopularMoviesQuery({ page: currentPage, genre_id });
-  //const { data: data2 } = useGetMovieDetailsQuery(1107872); //movie details query
-  //const { data: data1 } = useGetGenresQuery('test');
-  //const { data: data2 } = useGetMoviesByGenreQuery(27);
-  console.log('test->>>', data);
-  console.log('Genres->>>>', currentPage);
-  //console.log('moviesdetails->>>>', data2); //movie details
+  const { data: popularMovies, isLoading } = useGetPopularMoviesQuery({
+    page: currentPage,
+    genre_id
+  });
   const [addFavoriteMovie, { isLoading: saveLoading }] = useAddFavoriteMovieMutation();
-
   const { data: movieDetails } = useGetMovieDetailsQuery(modalId ? modalId : skipToken);
 
   const handleCloseModal = () => {
@@ -42,7 +38,9 @@ const MainScreen = () => {
     await addFavoriteMovie(movie_id)
       .unwrap()
       .then(() => toast.success('Movie saved!'))
-      .catch(() => toast.error('Something went wrong!'));
+      .catch((error) =>
+        toast.error(`Status: ${error?.status}\n Message: ${error?.data?.status_message}`)
+      );
     handleCloseModal();
   };
 
@@ -60,13 +58,13 @@ const MainScreen = () => {
           <Catalog
             deleteOrSaveHandle={addFavoriteMovieHandle}
             detailsHandle={movieDetailsClick}
-            movies={data?.results}
+            movies={popularMovies?.results}
           />
           <PaginationContainer>
             <Pagination
               currentPage={currentPage}
-              elementsPerPage={20}
-              totalElements={data?.total_results}
+              elementsPerPage={popularMovies?.results.length}
+              totalElements={popularMovies?.total_results}
               paginate={paginate}
             />
           </PaginationContainer>

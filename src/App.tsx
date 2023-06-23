@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainScreen from './screens/MainScreen';
 import CollectionScreen from './screens/CollectionScreen';
 import NavBar from './components/NavBar';
@@ -10,6 +10,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Routes>
+        <Route path="*" element={<Navigate to="/movies" />} />
         <Route path="/movies" element={<MainScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
       </Routes>

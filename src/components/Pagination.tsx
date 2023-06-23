@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface PaginationProps {
-  elementsPerPage: number;
-  totalElements: number;
+  elementsPerPage: number | undefined;
+  totalElements: number | undefined;
   paginate: (pageNumber: number) => void;
   currentPage: number;
 }
 
-const Pagination = ({ elementsPerPage, totalElements, paginate, currentPage }: PaginationProps) => {
+const Pagination = ({
+  elementsPerPage = 1,
+  totalElements = 0,
+  paginate,
+  currentPage
+}: PaginationProps) => {
   const pageNumbers: number[] = [];
 
   for (let i = 1; i <= Math.ceil(totalElements / elementsPerPage); i++) {

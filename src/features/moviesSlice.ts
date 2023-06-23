@@ -6,6 +6,10 @@ export type Movie = {
   release_date: string;
   title: string;
   genre_ids: number[];
+  synopsis: string;
+  runtime: number;
+  vote_average: number;
+  overview: string;
 };
 
 export interface MovieState {

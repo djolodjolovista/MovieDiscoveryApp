@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Movie } from '../features/moviesSlice';
 
 interface CatalogProps {
-  movies: Movie[];
+  movies: Movie[] | undefined;
   detailsHandle?: (id_movie: number) => void;
   deleteOrSaveHandle: (id_movie: number) => void;
   cardButtonText?: string;

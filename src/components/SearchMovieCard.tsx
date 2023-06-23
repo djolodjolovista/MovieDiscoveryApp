@@ -10,13 +10,15 @@ interface MovieCardProps {
   movie: Movie;
 }
 
-const SearchMovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const SearchMovieCard = ({ movie }: MovieCardProps) => {
   const [addFavoriteMovie] = useAddFavoriteMovieMutation();
   const addFavoriteMovieHandle = async (movie_id: number) => {
     await addFavoriteMovie(movie_id)
       .unwrap()
       .then(() => toast.success('Movie saved!'))
-      .catch(() => toast.error('Something went wrong!'));
+      .catch((error) =>
+        toast.error(`Status: ${error?.status}\n Message: ${error?.data?.status_message}`)
+      );
   };
   return (
     <CardContainer>
